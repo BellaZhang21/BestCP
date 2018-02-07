@@ -1,0 +1,1 @@
+<button bindtap="nextPage" class="start">开启你的CP寻找之旅</button>

@@ -1,0 +1,15 @@
+<view class="container">
+
+  <image src='http://bellazhang.cn/PNG/button.png' class='age-input' mode='widthFix'></image>
+  <input type='number' class='picker' confirm-type="done" maxlength='2' value='20' bindinput='inputAge'></input>
+
+    
+  <image src='http://bellazhang.cn/PNG/button2.png' class='constellation-input' mode='widthFix'></image>
+  <picker bindchange="bindPickerChange" value="{{index}}" range="{{array}}" mode="selector" style=''>
+    <view class="picker" style='margin-top: -72rpx;height:70rpx;width:520rpx'>
+      {{array[index]}}
+    </view>
+  </picker>
+
+   <image src='{{imgURL}}' class='next' mode='widthFix' bindtap='goNext'></image> 
+</view>
