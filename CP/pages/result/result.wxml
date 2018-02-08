@@ -11,8 +11,8 @@
     <view class='box'></view>
       <text class='des' style='color:#0D0D0D'>{{description}}</text>
         <view class='about' bindtap='goAbout'></view> 
-       <!-- <button open-type='share'>分享</button>  -->
   </view>
+  <!-- 背景 -->
    <image src='result-bg.png' mode='widthFix' style='width:100%'></image> 
    <view class='lotto'>
     <button class='lotto-btn' open-type='contact'>马上去抽奖</button>

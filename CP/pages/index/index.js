@@ -5,7 +5,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-    status:""
+    status:"",
+    screenWidth: '',
+    screenHeight:"",
+    model:""
   },
   nextPage: function() {
     if(this.data.status=="success"|| this.data.status == "insert")
@@ -26,16 +29,17 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (ops) {
-    var that = this
-    // //调用应用实例的方法获取全局数据
-    // wx.getUserInfo( {
-    //   //更新数据
-    //   success: function (res) {
-    //     var userInfo = res.userInfo
-    //     // var nickname = userInfo.nickName
-    //     var avatarUrl = userInfo.avatarUrl
-    //   }
-    // })
+    var that = this;
+    var mobileModel = wx.getSystemInfoSync().model;
+    var dat = mobileModel.substring(0, mobileModel.lastIndexOf("X")) + "X";
+    this.setData({
+      screenWidth: wx.getSystemInfoSync().windowWidth,
+      screenHeight: wx.getSystemInfoSync().windowHeight,
+      model: dat
+    })
+    console.log(this.data.screenWidth, this.data.screenHeight, this.data.model)
+
+    
   },
 
   /**

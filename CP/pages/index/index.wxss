@@ -1,8 +1,8 @@
 /**index.wxss**/
-page {
+/* page { 
    background-image: url('http://bellazhang.cn/PNG/main.png'); 
   background-size: cover
-}
+} */
 
 .start {
   width: 70%;
@@ -14,6 +14,12 @@ page {
   color: white;
   background: linear-gradient(to right, #FE5F5F, #F27239); 
   position: relative;
-  margin-top: 130%;
+   /* margin-top: 130%;  */
   margin-right: 15%
+}
+.bg{
+  margin-top: 100rpx;
+}
+.btn{
+  margin-top: 80rpx;
 }

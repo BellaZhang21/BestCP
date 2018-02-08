@@ -3,11 +3,9 @@
   width: 90%
 }
 
-page {
-  background-image: url('http://bellazhang.cn/PNG/question-bg.png');
-  background-size: cover;
-  /* height: 100%      */
-}
+ page {
+  background: #FFEBEC
+} 
 /* 题号 */
 .testNum{
   background-color: #FB3D54;
@@ -21,8 +19,8 @@ page {
   display: flex;
   align-items: center;
   justify-content: center;
-  
 }
+
 /* 问题 */
 .question{
   margin-top: 65rpx;
@@ -51,6 +49,10 @@ page {
 .min{
   margin-top: 66rpx;
 }
+.ipx{
+  margin-top: 95rpx;
+}
+
 .choice {
   margin-left: 50rpx;
   font-size: 32rpx;
@@ -77,3 +79,16 @@ page {
   font-size: 26rpx;
   color: #B3B3B3;
 }
+.choice-content{
+  padding-left: 100rpx;
+  padding-right: 100rpx;
+}
+.blank{
+  height:26rpx
+}
+.xStyle{
+  margin-top: 100%;
+}
+ .sStyle{
+  margin-top: -162%;
+} 

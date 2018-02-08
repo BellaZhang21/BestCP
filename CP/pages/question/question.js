@@ -3,7 +3,7 @@ var app = getApp()
 Page({
 
   /**
-   * 页面的初始数据
+   * 页面的初始数据 
    */
   data: {
     //选项
@@ -14,7 +14,8 @@ Page({
     testnum: 1,
     description:"",
     result:[],
-    screenWidth: ''
+    screenWidth: '',
+    isipx: false
   },
   //页尾跳转
   goAbout: function(){
@@ -131,10 +132,16 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var mobileModel = wx.getSystemInfoSync().model;
+    var dat = mobileModel.substring(0, mobileModel.lastIndexOf("X")) + "X";
+    if (dat == "iPhone X")
+      this.setData({
+        isipx: true
+      })
       this.setData({
         screenWidth: wx.getSystemInfoSync().windowWidth
       })
-      console.log(this.data.screenWidth)
+      console.log(this.data.isipx)
      
 
   },

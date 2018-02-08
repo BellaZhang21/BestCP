@@ -11,7 +11,11 @@ Page({
     age:20,
     gender: '未知',
     nickname: '',
-    avatarUrl: ''
+    avatarUrl: '',
+    model: "",
+    screenHeight:"",
+    isipx: false
+
   },
   bindPickerChange: function(e) {
     this.setData({
@@ -52,6 +56,16 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var mobileModel = wx.getSystemInfoSync().model;
+    var dat = mobileModel.substring(0, mobileModel.lastIndexOf("X")) + "X";
+    if(dat=="iPhone X")
+    this.setData({
+      isipx: true
+    })
+    this.setData({
+      model: dat,
+      screenHeight: wx.getSystemInfoSync().screenHeight,
+    })
     var that = this;
     wx.getUserInfo({
       success: function (res) {
