@@ -93,18 +93,22 @@ Page({
     wx.showShareMenu({
       withShareTicket: true
     })
+    // 获取魅力指数
     wx.request({
       url: 'https://api.gentleleetommy.cn/bestcp/testResult',
       header: {
         'content-type': 'application/json' // 默认值
       },
+      data:{
+        wx_id:wx.getStorageSync("wx_id")
+      },
       success: function (res) {
-        var result = res.data['data'][that.data.rate-1];
-        var src = 'star' + result['type'] + '.png';
+        console.log(res)
+        var src = 'star' + res.data.rate + '.png';
         that.setData({
-          description: result['description'],
+          description: res.data.description,
           star: src,
-          type_id:result['type']
+          type_id:res.data.rate
         })
       }
     })

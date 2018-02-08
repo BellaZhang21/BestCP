@@ -59,6 +59,7 @@ Page({
     //完成
     if(this.data.testnum>5){
       var that = this;
+      console.log("postid = " + wx.getStorageSync("wx_id"))
       // 获取魅力指数
       wx.request({
         url: 'https://api.gentleleetommy.cn/bestcp/testResult',
@@ -66,13 +67,15 @@ Page({
           'content-type': 'application/json' // 默认值
         },
         data:{
-          array: that.data.result
+          array: that.data.result,
+          wx_id: wx.getStorageSync("wx_id")
         },
         method:'POST',
         success: function (res) {
-          var id = '../rate/rate?id='+res.data['data'][0]['id'];
+          wx.setStorageSync('rate', res.data.type)
+          wx.setStorageSync('rate-des', res.data.description)
           wx.redirectTo({
-            url: id,
+            url: '../rate/rate',
           })
         }
       })

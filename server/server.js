@@ -209,19 +209,26 @@ share.post(function (req, res, next) {
     });
 });
 
-var bestCp = router.route('/bestCouple');
+var groupClick = router.route('/groupClick');
 
-bestCp.get(function (req, res, next) {
-    console.log('get bestCp');
-    console.log("req.query.wx_id = " + req.query.wx_id);
+groupClick.post(function (req, res, next) {
+    console.log('post groupClick');
+    console.log(req.body);
+    console.log("req.body.wx_id = " + req.body.wx_id);
     // console.log(req.body);
+
+    var appId = 'wxf259d9c8cc7766ed';
+    var pc = new WXBizDataCrypt(appId,req.body.sessionKey);
+    var mdata = pc.decryptData(req.body.encryptedData,req.body.iv);
+
+    console.log(mdata.openGId);
 
     req.getConnection(function(err,conn){
         console.log("get connection");
 
         if (err) return next("Cannot Connect");
 
-        var query = conn.query('select * from General where wx_id = ?',[req.query.wx_id],function(err,rows){
+        var query = conn.query('select * from General where wx_id = ?',[req.body.wx_id],function(err,rows){
             if(err){
                 console.log(err);
                 res.send({status:'failed'})
@@ -233,14 +240,19 @@ bestCp.get(function (req, res, next) {
             }
             console.log(rows);
             var flag = false;
+            var row;
             for(var i = 0 ; i < rows.length;i++){
-                if(rows[i].group_id == req.query.group_id){
+                if(rows[i].group_id == mdata.openGId){
                     flag = true;
+                    row = rows[i];
                     break;
                 }
             }
             if(flag){
-                res.send({status:'success'});
+                res.send({
+                    status:'success',
+                    group_id : row.group_id
+            });
                 return;
             }else{
                 console.log("rows = " + rows);
@@ -250,8 +262,8 @@ bestCp.get(function (req, res, next) {
                     if (err) return next("Cannot Connect");
 
                     var data = {
-                        wx_id : req.query.wx_id,
-                        group_id :req.query.group_id,
+                        wx_id : req.body.wx_id,
+                        group_id :mdata.openGId,
                         cp_type :rows[0].cp_type 
                     }
             
@@ -259,10 +271,13 @@ bestCp.get(function (req, res, next) {
             
                         if(err){
                             console.log(err);
-                            return next("best cp get :Mysql error, check your query");
+                            return next("groupClick post :Mysql error, check your query");
                         }
             
-                        res.send({status:"insert"})
+                        res.send({
+                            status:"insert",
+                            group_id : mdata.openGId,
+                        })
             
                      });
                 });
@@ -271,6 +286,8 @@ bestCp.get(function (req, res, next) {
          });
     })
 });
+
+var bestCp = router.route('/bestCouple');
 
 bestCp.post(function (req, res, next) {
     console.log('post bestCp');
@@ -307,7 +324,7 @@ bestCp.post(function (req, res, next) {
     
             if (err) return next("Cannot Connect");
     
-            var query = conn.query('select * from BasicInfo where wx_id != ? and gender != ? and wx_id in (select wx_id from General where group_id = ? and cp_type = (select cp_type from General where wx_id = ?))',[me.wx_id,me.gender,mdata.group_id,mdata.wx_id],function(err,rows){
+            var query = conn.query('select * from BasicInfo where wx_id != ? and gender != ? and wx_id in (select wx_id from General where group_id = ? and cp_type = (select cp_type from General where wx_id = ? and group_id = ?))',[me.wx_id,me.gender,mdata.group_id,mdata.wx_id,mdata.group_id],function(err,rows){
     
                 if(err){
                     console.log(err);

@@ -1,12 +1,11 @@
 //app.js
 App({
   onShow:function(ops){
-    console.log("onSHOWWWWWWWw");
     console.log("ops.scene = " + ops.scene);
-    if (ops.scene == 1044 || ops.scene == 1008) {
+    if ((ops.scene == 1044 || ops.scene == 1008) && ops.shareTicket) {
       console.log("onClickShare")
       var shareTicket = ops.shareTicket;
-      console.log( ops)
+      console.log(ops)
       wx.getShareInfo({
         shareTicket: shareTicket,
         success: function (res) {
@@ -41,6 +40,25 @@ App({
         }
       })
     }
+    else if(ops.scene == 1007 || ops.scene == 1044){
+      wx.request({
+        url: 'https://api.gentleleetommy.cn/bestcp/testResult',
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        data: {
+          wx_id: wx.getStorageSync("wx_id")
+        },
+        success: function (res) {
+          if(res.data.rate){
+            wx.redirectTo({
+              url: '../rate/rate',
+            })
+          }
+        }
+      })
+      
+    }
   },
   onLaunch: function () {
     // 展示本地存储能力
@@ -55,7 +73,7 @@ App({
           wx.getUserInfo({
             success: res => {
               // 可以将 res 发送给后台解码出 unionId
-              console.log(res.userInfo)
+              console.log("userinfo"+res.userInfo)
               this.globalData.userInfo = res.userInfo
               wx.setStorageSync('iv', res.iv)
               wx.setStorageSync('mynickName', res.userInfo.nickName)
@@ -88,6 +106,7 @@ App({
           success: function (res) {
             console.log(res.data.session_key)
             wx.setStorageSync('wx_id', res.data.openid);
+            console.log("wx_id" + res.data.openid)
             wx.setStorageSync('sessionKey', res.data.session_key);
           }
         })
