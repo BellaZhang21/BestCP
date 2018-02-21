@@ -454,7 +454,7 @@ var testResult = router.route('/testResult');
 
 testResult.get(function (req, res, next) {
     console.log('get testResult');
-    console.log("wx_id = " + req.body.wx_id);
+    console.log("wx_id = " + req.query.wx_id);
     req.getConnection(function (err, conn) {
 
         if (err) return next("Cannot Connect");
